@@ -84,9 +84,8 @@
 
   spBtn?.addEventListener('click', openSideNav);
   spOverlay?.addEventListener('click', closeSideNav);
-  document.getElementById('side-close-btn')?.addEventListener('click', closeSideNav);
 
-  // SPでサイドナビのリンクをタップしたら閉じる
+  // SPでサイドナビ内のリンク・CTAボタンをタップしたら閉じる
   document.querySelectorAll('.side-nav a').forEach(a => {
     a.addEventListener('click', () => {
       if (window.matchMedia('(max-width: 960px)').matches){
@@ -121,36 +120,100 @@
     });
   });
 
-  // -------- お問い合わせフォーム（デモ送信） --------
-  const form = document.getElementById('contact-form');
-  const note = document.getElementById('form-note');
+  // -------- お問い合わせフォーム（Googleフォーム非同期送信 + オーバーレイ） --------
+  const form        = document.getElementById('contact-form');
+  const overlay     = document.getElementById('form-overlay');
+  const stateNodes  = {
+    sending: overlay?.querySelector('.form-state-sending'),
+    success: overlay?.querySelector('.form-state-success'),
+    error  : overlay?.querySelector('.form-state-error'),
+  };
+
+  // 状態切り替え： 'sending' | 'success' | 'error' | null（閉じる）
+  const setFormState = (state) => {
+    if (!overlay) return;
+
+    // 全パネルの .active を一度オフ
+    Object.values(stateNodes).forEach(n => n?.classList.remove('active'));
+
+    if (!state){
+      overlay.classList.remove('show');
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.removeAttribute('data-state');
+      document.body.style.overflow = '';
+      return;
+    }
+
+    const target = stateNodes[state];
+    if (!target) return;
+
+    // success の場合は紙吹雪を毎回作り直し（アニメ再生のため）
+    if (state === 'success'){
+      let confetti = target.querySelector('.confetti');
+      if (!confetti){
+        confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.innerHTML = '<i></i><i></i><i></i><i></i><i></i><i></i><i></i>';
+        target.prepend(confetti);
+      } else {
+        // 既にある場合はノードを差し替えてアニメをリスタート
+        const fresh = confetti.cloneNode(true);
+        confetti.replaceWith(fresh);
+      }
+    }
+
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden', 'false');
+    overlay.setAttribute('data-state', state);
+    target.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  // 起動時は必ず非表示
+  setFormState(null);
+
   if (form){
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = form.name?.value.trim();
-      const email = form.email?.value.trim();
-      const relation = form.relation?.value;
-      const agree = document.getElementById('f-agree')?.checked;
+      form.classList.add('is-sending');
+      setFormState('sending');
 
-      if (!name || !email || !relation || !agree){
-        if (note){
-          note.textContent = '必須項目をご入力ください。';
-          note.className = 'form-note error';
-        }
-        return;
-      }
+      const formData = new FormData(form);
+      // 演出のため、最低でも 1.2 秒は「送信中」を見せる
+      const minDelay = new Promise(r => setTimeout(r, 1200));
+      const send     = fetch(form.action, {
+        method: 'POST',
+        body  : formData,
+        mode  : 'no-cors'
+      });
 
-      if (note){
-        note.textContent = '送信中…';
-        note.className = 'form-note';
-      }
-      setTimeout(() => {
-        if (note){
-          note.textContent = '送信を完了しました。2〜3営業日以内にご返信いたします。';
-          note.className = 'form-note success';
-        }
-        form.reset();
-      }, 900);
+      Promise.all([send, minDelay])
+        .then(() => {
+          form.classList.remove('is-sending');
+          setFormState('success');
+          form.reset();
+        })
+        .catch(() => {
+          form.classList.remove('is-sending');
+          setFormState('error');
+        });
     });
   }
+
+  // 「もう一度送信する」「もう一度試す」
+  document.getElementById('form-reset')?.addEventListener('click', () => setFormState(null));
+  document.getElementById('form-retry')?.addEventListener('click', () => setFormState(null));
+
+  // 背景クリック・Escで閉じる（送信中は閉じない）
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay && overlay.getAttribute('data-state') !== 'sending'){
+      setFormState(null);
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay?.classList.contains('show')
+        && overlay.getAttribute('data-state') !== 'sending'){
+      setFormState(null);
+    }
+  });
 })();
