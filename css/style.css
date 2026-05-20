@@ -421,6 +421,44 @@ ul, ol{ box-sizing: border-box; }
 .photo-placeholder .material-symbols-outlined{ font-size: 42px; opacity: .7; }
 .photo-placeholder p{ margin: 0; font-size: 13px; }
 .photo-placeholder small{ opacity: .7; }
+.staff-grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.staff-card{
+  background: #fff;
+  border: 1px solid var(--sora-line);
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+.staff-card h3{
+  margin: 12px 0 2px;
+  font-family: 'Zen Maru Gothic', sans-serif;
+  color: var(--sora-blue-deep);
+  font-size: 16px;
+}
+.staff-role{
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--sora-ink-soft);
+  letter-spacing: .08em;
+}
+.staff-card p{ margin: 0; font-size: 14px; color: var(--sora-ink-soft); line-height: 1.7; }
+@media (min-width: 600px) {
+  .staff-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 900px) {
+  .staff-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 
 /* ==========================================================
    こだわり
@@ -828,6 +866,8 @@ ul, ol{ box-sizing: border-box; }
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 .contact-direct{
   display: grid;
@@ -843,35 +883,21 @@ ul, ol{ box-sizing: border-box; }
   border-radius: var(--radius);
   border: 1px solid var(--sora-line);
   box-shadow: var(--shadow-soft);
-  text-decoration: none;
-  color: inherit;
-  transition: transform .15s, box-shadow .15s;
 }
-.contact-card:hover{
-  transform: translateY(-2px);
-  box-shadow: 0 12px 22px rgba(60,100,140,.15);
-}
-.contact-card > .material-symbols-outlined{
+.contact-card .material-symbols-outlined{
   font-size: 32px;
   color: var(--sora-blue-deep);
   background: var(--sora-blue-soft);
   border-radius: 12px;
   padding: 8px;
-  flex: 0 0 auto;
 }
-.contact-card > div{ min-width: 0; flex: 1; }
 .contact-label{ margin: 0; font-size: 12px; color: var(--sora-ink-soft); }
-.contact-value{
-  display: block;
-  font-size: 18px; font-weight: 700;
-  color: var(--sora-blue-deep);
-  word-break: break-all;
-}
-.contact-hint{ margin: 2px 0 0; font-size: 11.5px; color: var(--sora-ink-soft); }
+.contact-value{ font-size: 20px; font-weight: 700; color: var(--sora-blue-deep); text-decoration: none; }
+.contact-hint{ margin: 2px 0 0; font-size: 12px; color: var(--sora-ink-soft); }
 
 .contact-form{
   background: #fff;
-  padding: 22px;
+  padding: 22px 22px 20px;
   border-radius: var(--radius);
   border: 1px solid var(--sora-line);
   box-shadow: var(--shadow-soft);
@@ -879,11 +905,7 @@ ul, ol{ box-sizing: border-box; }
   gap: 14px;
 }
 .form-row{ display: grid; gap: 6px; }
-.form-row label, .form-label{
-  font-size: 13.5px;
-  font-weight: 700;
-  color: var(--sora-ink);
-}
+.form-row label{ font-size: 14px; font-weight: 700; color: var(--sora-ink); }
 .form-row input[type="text"],
 .form-row input[type="email"],
 .form-row input[type="tel"],
@@ -905,55 +927,37 @@ ul, ol{ box-sizing: border-box; }
   border-color: var(--sora-blue);
   box-shadow: 0 0 0 3px rgba(87,198,241,.25);
 }
-.form-row textarea{ resize: vertical; min-height: 90px; }
-.form-row-2{ grid-template-columns: 1fr; gap: 14px; }
-.form-row-2 > div{ display: grid; gap: 6px; }
+.form-row textarea{ resize: vertical; }
 .req{
   display: inline-block;
   background: #ff8f6b;
   color: #fff;
-  font-size: 10px;
-  padding: 1px 7px;
+  font-size: 11px;
+  padding: 1px 8px;
   border-radius: 999px;
-  margin-left: 6px;
+  margin-left: 8px;
   vertical-align: middle;
   font-weight: 700;
-  letter-spacing: .04em;
 }
 .checkboxes{
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 14px;
-}
-.checkboxes label{
-  font-weight: 400; font-size: 13.5px;
-  display: inline-flex; align-items: center; gap: 6px;
-  cursor: pointer;
-}
-.form-row-check label{
+  gap: 8px 16px;
   font-weight: 400;
-  display: inline-flex; align-items: center; gap: 8px;
-  cursor: pointer;
-  font-size: 13.5px;
 }
-.form-submit{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin-top: 6px;
-}
+.checkboxes label{ font-weight: 400; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
+.form-row-check label{ font-weight: 400; display: inline-flex; align-items: center; gap: 8px; }
 
+.form-submit{ align-items: center; justify-items: center; gap: 10px; margin-top: 6px; }
 .btn{
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 6px;
   padding: 12px 24px;
   border-radius: 999px;
   font-weight: 700;
   font-family: inherit;
-  font-size: 15px;
+  font-size: 16px;
   text-decoration: none;
   border: none;
   cursor: pointer;
@@ -969,9 +973,224 @@ ul, ol{ box-sizing: border-box; }
   background: var(--sora-blue-deep);
   box-shadow: 0 10px 22px rgba(42,143,189,.45);
 }
-.form-note{ margin: 0; font-size: 13px; text-align: center; min-height: 18px; }
+.form-note{ margin: 0; font-size: 14px; text-align: center; }
 .form-note.error{ color: #d04a4a; }
 .form-note.success{ color: #2f8f5f; }
+
+/* ========== お問い合わせ完了オーバーレイ ========== */
+.form-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 248, 238, 0.95);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.form-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.form-state {
+  text-align: center;
+  padding: 40px 30px;
+  max-width: 500px;
+  width: 90%;
+  display: none;
+}
+.form-state.active {
+  display: block;
+  animation: stateFadeIn 0.4s ease;
+}
+
+@keyframes stateFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.form-state-title {
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-size: 28px;
+  color: var(--sora-blue-deep);
+  margin: 20px 0 10px;
+}
+.form-state-text {
+  color: var(--sora-ink);
+  line-height: 1.8;
+  margin: 10px 0 30px;
+}
+
+/* 紙飛行機アニメーション（送信中） */
+.paper-plane{
+  display: inline-block;
+  position: relative;
+  animation: planeFly 2.2s ease-in-out infinite;
+  filter: drop-shadow(0 6px 8px rgba(42,143,189,.18));
+}
+/* 雲のような軌跡（疑似要素） */
+.paper-plane::before,
+.paper-plane::after{
+  content: '';
+  position: absolute;
+  top: 55%;
+  right: 100%;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(87,198,241,.55);
+  animation: planeTrail 1.4s ease-out infinite;
+}
+.paper-plane::after{
+  width: 5px; height: 5px;
+  top: 70%;
+  right: 110%;
+  animation-delay: .25s;
+  background: rgba(87,198,241,.35);
+}
+@keyframes planeFly{
+  0%   { transform: translate(-18px, 6px) rotate(-6deg); }
+  25%  { transform: translate(0, -10px) rotate(4deg); }
+  50%  { transform: translate(18px, -2px) rotate(-2deg); }
+  75%  { transform: translate(6px, -12px) rotate(6deg); }
+  100% { transform: translate(-18px, 6px) rotate(-6deg); }
+}
+@keyframes planeTrail{
+  0%   { transform: translate(0, 0) scale(1);   opacity: .7; }
+  100% { transform: translate(-30px, 6px) scale(.2); opacity: 0; }
+}
+
+/* 「送信中です…」のドット点滅 */
+.form-state-sending .form-state-text::after{
+  content: '';
+  display: inline-block;
+  width: 1.2em;
+  text-align: left;
+  animation: sendingDots 1.2s steps(4, end) infinite;
+}
+@keyframes sendingDots{
+  0%   { content: ''; }
+  25%  { content: '.'; }
+  50%  { content: '..'; }
+  75%  { content: '...'; }
+  100% { content: ''; }
+}
+
+/* 完了：マークがポップ → リング → チェック描画 */
+.success-mark{
+  display: inline-block;
+  position: relative;
+  animation: successPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+/* 円が広がるリング */
+.success-mark::before{
+  content: '';
+  position: absolute;
+  inset: 50%;
+  width: 0; height: 0;
+  border-radius: 50%;
+  background: rgba(87,198,241,.35);
+  transform: translate(-50%, -50%);
+  animation: successRing .9s ease-out .15s both;
+}
+@keyframes successRing{
+  0%   { width: 0;     height: 0;     opacity: .7; }
+  100% { width: 160px; height: 160px; opacity: 0;  }
+}
+.success-check{
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+  animation: drawCheck 0.55s ease 0.35s forwards;
+}
+@keyframes successPop{
+  0%   { transform: scale(0)   rotate(-12deg); }
+  60%  { transform: scale(1.1) rotate(4deg); }
+  100% { transform: scale(1)   rotate(0deg); }
+}
+@keyframes drawCheck{
+  to { stroke-dashoffset: 0; }
+}
+
+/* 紙吹雪（成功時にふんわり舞う） */
+.confetti{
+  position: absolute;
+  top: 0; left: 50%;
+  width: 0; height: 0;
+  pointer-events: none;
+}
+.confetti i{
+  position: absolute;
+  width: 8px; height: 12px;
+  border-radius: 2px;
+  opacity: 0;
+  animation: confettiFall 2.4s ease-out forwards;
+}
+.confetti i:nth-child(1){ background: #ffd64d; left:  -120px; animation-delay: .1s; }
+.confetti i:nth-child(2){ background: #57c6f1; left:   -60px; animation-delay: .25s; transform: rotate(15deg); }
+.confetti i:nth-child(3){ background: #ffb7c5; left:     0px; animation-delay: .15s; }
+.confetti i:nth-child(4){ background: #b7dcb3; left:    60px; animation-delay: .3s; transform: rotate(-15deg); }
+.confetti i:nth-child(5){ background: #ff8f6b; left:   120px; animation-delay: .2s; }
+.confetti i:nth-child(6){ background: #ffd64d; left:   -90px; animation-delay: .4s; }
+.confetti i:nth-child(7){ background: #57c6f1; left:    90px; animation-delay: .35s; }
+@keyframes confettiFall{
+  0%   { opacity: 0; transform: translateY(-20px) rotate(0deg); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(220px) rotate(720deg); }
+}
+
+/* ボタン群 */
+.form-state-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-secondary {
+  background: #fff;
+  color: var(--sora-blue-deep);
+  border: 2px solid var(--sora-blue);
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  transition: background-color .15s, color .15s, transform .15s;
+}
+.btn-secondary:hover {
+  background: var(--sora-blue);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 599px) {
+  .form-state-title { font-size: 22px; }
+  .form-state-text { font-size: 14px; }
+}
+
+/* 送信ボタン：送信中はパルス＆無効化 */
+.contact-form.is-sending .btn-primary{
+  pointer-events: none;
+  opacity: .8;
+  animation: btnPulse 1.2s ease-in-out infinite;
+}
+@keyframes btnPulse{
+  0%, 100% { box-shadow: 0 6px 16px rgba(87,198,241,.45); }
+  50%      { box-shadow: 0 6px 24px rgba(87,198,241,.75); }
+}
+.contact-form.is-sending .btn-primary .material-symbols-outlined{
+  animation: btnPlaneSlide .9s ease-in-out infinite;
+}
+@keyframes btnPlaneSlide{
+  0%   { transform: translate(0, 0); opacity: 1; }
+  60%  { transform: translate(18px, -10px); opacity: 0; }
+  61%  { transform: translate(-18px, 8px); opacity: 0; }
+  100% { transform: translate(0, 0); opacity: 1; }
+}
 
 /* ==========================================================
    フッター
